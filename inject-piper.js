@@ -47,21 +47,27 @@ function trans_href(html){
         var href = hrefs[i];
         //console.log(href);
         if(href.length>0){ //not null
-            if(href.indexOf('http')<0){ //relative
-                if(href[6]=="/"){ //from host
-                    if(href.indexOf('.css')>0 || href.indexOf('.js')>0){
-                        href_pipe = href.replace('href="','href="'+host); //css/js
-                    }else{
-                        href_pipe = href.replace('href="','href="/pipe?href='+host); //not css/js
-                    }
-                }else{ //from this page
-                    href_pipe = href.replace('href="','href="/pipe?href='+page);
+            if(href.indexOf('.css')>0 || href.indexOf('.js')>0 || href.indexOf('.svg')>0 || href.indexOf('.ico')>0 || href.indexOf('.jpg')>0 || href.indexOf('.png')>0 || href.indexOf('.gif')>0 || href.indexOf('.bmp')>0){ 
+                //not link
+                if(href.indexOf('http')<0){ //relative
+                    if(href[6]=="/" && href[7]=="/"){ //miss http
+                        href_pipe = href.replace('href="','href="http:');
+                    }else if(href[6]=="/"){ //from host
+                        href_pipe = href.replace('href="','href="'+host);
+                    } //impossible from page
+                }else{ //absolute
+                    href_pipe = href.replace('href="','href="');
                 }
-            }else{ //absolute
-                if(href.indexOf('.css')>0 && href.indexOf('.js')>0){
-                    href_pipe = href.replace('href="','href="'); //css/js
-                }else{
-                    href_pipe = href.replace('href="','href="/pipe?href='); //not css/js
+            }else{ 
+                //link
+                if(href.indexOf('http')<0){ //relative
+                    if(href[6]=="/"){ //from host
+                        href_pipe = href.replace('href="','href="/pipe?href='+host);
+                    }else{ //from this page
+                        href_pipe = href.replace('href="','href="/pipe?href='+page);
+                    }
+                }else{ //absolute
+                    href_pipe = href.replace('href="','href="/pipe?href=');
                 }
             }
             //console.log(href_pipe);
@@ -71,7 +77,7 @@ function trans_href(html){
     return html
 }
 
-function inject(html){
+function inject(url,html){
     //inject code
     return html
 }
@@ -88,14 +94,10 @@ exports.pipe = function(url,callback){
         var html = res.text; //original html
         html = trans_src(html);
         html = trans_href(html);
+        html = inject(url,html);
         console.log('Piping '+url);
         callback(html);
         console.log('Piped '+url);
-    },'gbk');
+    },'utf-8');
 }
 
-/*var url = 'http://www.bxwx8.org/b/24/24675/5836950.html'
-getResponse(url,function(res){
-    //console.log(res.text)
-    var html = res.text //original html
-},'gbk')*/
