@@ -7,14 +7,14 @@ A node.js server that can pipe web page to client, and inject code to the page a
 + http://server/pipe?href= 后填入网址，可以成功通过服务器中转单次请求。
 + 请求的文档在服务端被处理，大部分相对资源（包括css/js/svg/jpg等）链接被绝对化，仍可以在不同域下获取。
 + 所有相对跳转链接（主要指a标签）被绝对化。所有跳转链接增添 http://server/pipe?href= 前缀。
++ 完善的网页编码自识别机制，避免乱码。
++ 合理的超时/重连机制，提高访问效率。
 
 ### 待实现的功能
-+ 合理的超时/重连机制，提高访问效率。
 + 反反盗链。
 + 在客户端添加和管理不同域名下的注入代码。
 + 支持javascript代码产生的跳转。
 + 避免域更改导致的js代码错误。
 + 识别部分不包含关键字的资源url（如```<img src='http://qidian.qpic.cn/qidian_common/349573/0305ff0dee1e098c90ed88cb464aec3b/0'>```）。
-+ 完善的网页编码自识别机制，避免乱码。
 + 主页（带网址输入框）。
 + 链接最终失败时展示的页面。
