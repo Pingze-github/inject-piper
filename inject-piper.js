@@ -2,18 +2,29 @@
 
 var SA = require('superagent');
 var charset = require('superagent-charset');
-var cheerio = require('cheerio');
 
 charset(SA);
 
-function getResponse(url,callback,charset='utf-8'){
+function get_charset(html){
+    return 'gbk';
+}
+
+function getResponse(url,callback,retry_time=0){
     //get response
+    var retry_max_time = 2; //max retry times
+    var timeout = 5000; //request timeout
     SA.get(url)
-    .charset(charset)
-    .timeout(5000)
-    .end(function(err,res){ //自动重连
+    .timeout(timeout)
+    .charset() //auto check
+    .end(function(err,res){
         if(err){
-            console.log("Failed to get: "+url);
+            retry_time ++;
+            if (retry_time>retry_max_time){
+                console.log("Failed at last, sending refresh.html")
+            }else{
+                console.log("Failed to get: "+url+',retring '+retry_time.toString()+' time ...');
+                getResponse(url,callback,retry_time);
+            }
         }else{
             callback(res);
         }
@@ -61,7 +72,9 @@ function trans_href(html){
             }else{ 
                 //link
                 if(href.indexOf('http')<0){ //relative
-                    if(href[6]=="/"){ //from host
+                    if(href[6]=="/" && href[7]=="/"){ //miss http
+                        href_pipe = href.replace('href="','href="/pipe?href=http:');
+                    }else if(href[6]=="/"){ //from host
                         href_pipe = href.replace('href="','href="/pipe?href='+host);
                     }else{ //from this page
                         href_pipe = href.replace('href="','href="/pipe?href='+page);
@@ -79,9 +92,10 @@ function trans_href(html){
 
 function inject(url,html){
     //inject code
+    code = '<style id="inject-css" type="text/css">uuu{display:none}script[src="http://m.tianyanzs.com/3"] + div{display:none}</style>'
+    html = html.replace("<head>","<head>"+code);
     return html
 }
-
 
 exports.pipe = function(url,callback){
     var html = "<body>inect-pipe</body>";
@@ -98,6 +112,14 @@ exports.pipe = function(url,callback){
         console.log('Piping '+url);
         callback(html);
         console.log('Piped '+url);
-    },'utf-8');
+    });
 }
+
+url = 'http://m.23wx.com/html/55/55519/22639855.html'
+//url = 'http://book.qidian.com/info/1004608738'
+getResponse(url,function(res){
+    console.log('Got '+url);
+    var html = res.text; //original html
+    console.log(html);
+});
 
