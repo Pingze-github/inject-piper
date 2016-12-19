@@ -3,7 +3,7 @@
 /**IMPORT**/
 var express = require('express');
 var url = require('url');
-var inject_pipe = require('./inject-pipe.js');
+var inject_piper = require('./inject-piper.js');
 
 /** SET **/
 var app = express();
@@ -26,11 +26,15 @@ app.get('/', function (req, res) { //主页
 app.get('/pipe', function (req, res) { //pipe
     console.log("[SERVER][GET] /pipe");
     var params = url.parse(req.url,true).query;
-    console.log(params);
-    var href = params['href']
-    inject_pipe.pipe(href,function(html){
-        res.send(html);
-    });
+    if (params.length>0){
+        console.log(params);
+        var href = params['href']
+        inject_piper.pipe(href,function(html){
+            res.send(html);
+        });
+    }else{
+        res.sendHtml('index.html');
+    }
 });
 
 /**启动服务器**/
