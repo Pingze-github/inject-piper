@@ -20,3 +20,6 @@ A node.js server that can pipe web page to client, and inject code to the page a
 + 识别部分不包含关键字的资源url（如```<img src='http://qidian.qpic.cn/qidian_common/349573/0305ff0dee1e098c90ed88cb464aec3b/0'>```）。
 + 主页（带网址输入框）。
 + 链接最终失败时展示的页面。
+
+### 测试用网址
+http://222.187.223.28:10000/
