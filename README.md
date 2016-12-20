@@ -14,6 +14,8 @@ A node.js server that can pipe web page to client, and inject code to the page a
 + 反反盗链。
 + 在客户端添加和管理不同域名下的注入代码。
 + 支持javascript代码产生的跳转。
++ 支持javascript代码生成的url的转换。
++ 支持css代码中的url的转换。
 + 避免域更改导致的js代码错误。
 + 识别部分不包含关键字的资源url（如```<img src='http://qidian.qpic.cn/qidian_common/349573/0305ff0dee1e098c90ed88cb464aec3b/0'>```）。
 + 主页（带网址输入框）。
