@@ -26,7 +26,7 @@ app.get('/', function (req, res) { //主页
 app.get('/pipe', function (req, res) { //pipe
     console.log("[SERVER][GET] /pipe");
     var params = url.parse(req.url,true).query;
-    if (params.length>0){
+    if (params['href']){
         console.log(params);
         var href = params['href']
         inject_piper.pipe(href,function(html){
