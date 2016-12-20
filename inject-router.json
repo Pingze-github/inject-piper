@@ -1,0 +1,1 @@
+[{"pattern":".+m.23wx.com.+","code":"<style class=\"inject-css\" type=\"text/css\">uuu,div[id^=\"_UU\"],script[src=\"http://m.tianyanzs.com/3\"] + div{display:none !important;height:0 !important}</style>"}]

@@ -2,12 +2,8 @@
 
 var SA = require('superagent');
 var charset = require('superagent-charset');
-
+var inject_router = require('./inject-router.js')
 charset(SA);
-
-function get_charset(html){
-    return 'gbk';
-}
 
 function getResponse(url,callback,retry_time=0){
     //get response
@@ -90,12 +86,6 @@ function trans_href(html){
     return html
 }
 
-function inject(url,html){
-    //inject code
-    code = '<style id="inject-css" type="text/css">uuu{display:none}script[src="http://m.tianyanzs.com/3"] + div{display:none}</style>'
-    html = html.replace("<head>","<head>"+code);
-    return html
-}
 
 exports.pipe = function(url,callback){
     var html = "<body>inect-pipe</body>";
@@ -108,18 +98,18 @@ exports.pipe = function(url,callback){
         var html = res.text; //original html
         html = trans_src(html);
         html = trans_href(html);
-        html = inject(url,html);
-        console.log('Piping '+url);
-        callback(html);
-        console.log('Piped '+url);
+        inject_router.inject(url,html,function(html_injected){
+            console.log('Piping '+url);
+            callback(html_injected);
+            console.log('Piped '+url);
+        });
     });
 }
 
-url = 'http://m.23wx.com/html/55/55519/22639855.html'
+/*url = 'http://m.23wx.com/html/55/55519/22639855.html'
 //url = 'http://book.qidian.com/info/1004608738'
 getResponse(url,function(res){
     console.log('Got '+url);
     var html = res.text; //original html
-    console.log(html);
-});
+});*/
 
