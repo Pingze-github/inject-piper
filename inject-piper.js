@@ -32,16 +32,17 @@ function trans_src(html){
     var srcs = html.match(/src=".*?"/gm); 
     for (i in srcs){
         var src = srcs[i];
-        //console.log(src); 
-        if(src.length>0){
+        if(src.length>0){ //not null
             if(src.indexOf('http')<0){ //relative
-                if(src[5]=="/"){ //from host
-                    src_abs = src.replace('src="','src="'+host)
-                }else{ //from this page
-                    src_abs = src.replace('src="','src="'+page)
-                }
-                html = html.replace(src,src_abs)
+                if(src[5]=="/" && src[6]=="/"){ //miss http
+                    var src_pipe = src.replace('src="','src="http:');
+                }else if(src[5]=="/"){ //from host
+                    var src_pipe = src.replace('src="','src="'+host);
+                } //impossible from page
+            }else{ //absolute
+                var src_pipe = src;
             }
+            html = html.replace(src,src_pipe)
         }
     }
     return html
@@ -58,25 +59,25 @@ function trans_href(html){
                 //not link
                 if(href.indexOf('http')<0){ //relative
                     if(href[6]=="/" && href[7]=="/"){ //miss http
-                        href_pipe = href.replace('href="','href="http:');
+                        var href_pipe = href.replace('href="','href="http:');
                     }else if(href[6]=="/"){ //from host
-                        href_pipe = href.replace('href="','href="'+host);
+                        var href_pipe = href.replace('href="','href="'+host);
                     } //impossible from page
                 }else{ //absolute
-                    href_pipe = href.replace('href="','href="');
+                    var href_pipe = href;
                 }
             }else{ 
                 //link
                 if(href.indexOf('http')<0){ //relative
                     if(href[6]=="/" && href[7]=="/"){ //miss http
-                        href_pipe = href.replace('href="','href="/pipe?href=http:');
+                        var href_pipe = href.replace('href="','href="/pipe?href=http:');
                     }else if(href[6]=="/"){ //from host
-                        href_pipe = href.replace('href="','href="/pipe?href='+host);
+                        var href_pipe = href.replace('href="','href="/pipe?href='+host);
                     }else{ //from this page
-                        href_pipe = href.replace('href="','href="/pipe?href='+page);
+                        var href_pipe = href.replace('href="','href="/pipe?href='+page);
                     }
                 }else{ //absolute
-                    href_pipe = href.replace('href="','href="/pipe?href=');
+                    var href_pipe = href.replace('href="','href="/pipe?href=');
                 }
             }
             //console.log(href_pipe);
@@ -113,3 +114,7 @@ getResponse(url,function(res){
     var html = res.text; //original html
 });*/
 
+/*
+1.css中的图片未转换。
+2.js运行后生成的相对url不能转换。
+*/

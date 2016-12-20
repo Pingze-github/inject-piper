@@ -7,6 +7,7 @@ var inject_piper = require('./inject-piper.js');
 
 /** SET **/
 var app = express();
+app.use(express.static('./src')); //add src files
 
 /**FUNCTION**/
 function sendViewMiddleware(req, res, next) { //send .html
@@ -23,12 +24,12 @@ app.get('/', function (req, res) { //主页
     res.sendHtml('index.html');
 });
 
-app.get('/pipe', function (req, res) { //pipe
-    console.log("[SERVER][GET] /pipe");
+app.get('/piper', function (req, res) { //pipe
+    console.log("[SERVER][GET] /piper");
     var params = url.parse(req.url,true).query;
     if (params['href']){
         console.log(params);
-        var href = params['href']
+        var href = params['href'];
         inject_piper.pipe(href,function(html){
             res.send(html);
         });

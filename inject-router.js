@@ -21,9 +21,9 @@ exports.inject = function(url,html,callback){
                 var code = router.code;
                 if(url.match(pattern)){ //match url
                     html = html.replace('</head>',code+'</head>'); //inject code
-                    callback(html); //callback
                 }
             }
+            callback(html); //callback
         }
     });
 }
@@ -83,8 +83,5 @@ exports.addRouter = function(pattern,code){
 }
 
 
-code = '<style class="inject-css" type="text/css">uuu,div[id^="_UU"],script[src="http://m.tianyanzs.com/3"] + div{display:none !important;height:0 !important}</style>'
-exports.addRouter('.+m.23wx.com.+',code);
-
-    /*html = html.replace("<head>","<head>"+code);
-    return html*/
+/*code = '<style class="inject-css" type="text/css">uuu,div[id^="_UU"],script[src="http://m.tianyanzs.com/3"] + div{display:none !important;height:0 !important}</style>'
+exports.addRouter('.+m.23wx.com.+',code);*/
