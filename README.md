@@ -14,12 +14,17 @@ A node.js server that can pipe web page to client, and inject code to the page a
 ### 待实现的功能
 + 反反盗链。
 + 在客户端添加和管理不同域名下的注入代码。
-+ 支持javascript代码产生的跳转。
++ 部分javascript代码的正常运行。支持javascript代码产生的跳转。
 + 支持javascript代码生成的url的转换。
 + 支持css代码中的url的转换。
 + 避免域更改导致的js代码错误。
 + 识别部分不包含关键字的资源url（如```<img src='http://qidian.qpic.cn/qidian_common/349573/0305ff0dee1e098c90ed88cb464aec3b/0'>```）。
 + 链接最终失败时展示的页面。
++ https域下资源的转换。
+
+### 待解决的问题
++ 识别使用单引号包围的ur。
++ 同一页面下不同编码的处理。
 
 ### 测试用网址
 http://222.187.223.28:10000/piper
