@@ -83,5 +83,5 @@ exports.addRouter = function(pattern,code){
 }
 
 
-/*code = '<style class="inject-css" type="text/css">uuu,div[id^="_UU"],script[src="http://m.tianyanzs.com/3"] + div{display:none !important;height:0 !important}</style>'
-exports.addRouter('.+m.23wx.com.+',code);*/
+/*code = '<style class="inject-css" type="text/css">div[id^="BAIDU_SSP"],div.block-wrapper,div.nr_page + div{display:none !important;height:0 !important}</style>'
+exports.addRouter('.+00ksw.net.+',code);*/

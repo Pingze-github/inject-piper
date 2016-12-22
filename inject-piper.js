@@ -27,6 +27,12 @@ function getResponse(url,callback,retry_time=0){
     })
 }
 
+function information(html){
+    //add information
+    html = html.replace('<title>','<title>'+'Inject-piper - ')
+    return html
+}
+
 function trans_src(html){
     //turn relative src into absolute
     var srcs = html.match(/src=".*?"/gm); 
@@ -70,14 +76,14 @@ function trans_href(html){
                 //link
                 if(href.indexOf('http')<0){ //relative
                     if(href[6]=="/" && href[7]=="/"){ //miss http
-                        var href_pipe = href.replace('href="','href="/pipe?href=http:');
+                        var href_pipe = href.replace('href="','href="/piper?href=http:');
                     }else if(href[6]=="/"){ //from host
-                        var href_pipe = href.replace('href="','href="/pipe?href='+host);
+                        var href_pipe = href.replace('href="','href="/piper?href='+host);
                     }else{ //from this page
-                        var href_pipe = href.replace('href="','href="/pipe?href='+page);
+                        var href_pipe = href.replace('href="','href="/piper?href='+page);
                     }
                 }else{ //absolute
-                    var href_pipe = href.replace('href="','href="/pipe?href=');
+                    var href_pipe = href.replace('href="','href="/piper?href=');
                 }
             }
             //console.log(href_pipe);
@@ -97,8 +103,10 @@ exports.pipe = function(url,callback){
     getResponse(url,function(res){
         console.log('Got '+url);
         var html = res.text; //original html
+        html = information(html);
         html = trans_src(html);
         html = trans_href(html);
+        html = html.replace('</body>','<script type="text/javascript" src="/js/jquery.min.js"></script><script type="text/javascript" src="/js/element-finder.js"></script><script type="text/javascript" src="/js/element-selector.js"></script></body>') //inject element-finder
         inject_router.inject(url,html,function(html_injected){
             console.log('Piping '+url);
             callback(html_injected);
@@ -117,4 +125,6 @@ getResponse(url,function(res){
 /*
 1.css中的图片未转换。
 2.js运行后生成的相对url不能转换。
+3.https资源错误
+4.单引号情况
 */

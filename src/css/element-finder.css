@@ -1,0 +1,15 @@
+.element-finder{
+    width:50px;
+    height:50px;
+    position:absolute;
+    top:349px;
+    left:484px;
+    opacity:0.5;
+    z-index:1024;
+}
+.element-finder-off{
+    background:green;
+}
+.element-finder-on{
+    background:red;
+}

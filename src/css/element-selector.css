@@ -1,0 +1,47 @@
+#element-selector{
+    display: none;
+    background: gray;
+    position: absolute;
+    left:200px;
+    width:400px;
+    height:300px;
+    z-index:1024;
+}
+#element-selector-bar{
+    background: lightgray;
+    width:400px;
+    height:20px; 
+}
+#element-selector-textarea{
+    display: block;
+    margin:0 auto;
+    margin-top:25px;
+    width:300px;
+    height:200px;
+}
+#element-selector-hide{
+    float:right;
+    background:white;
+    width:20px;
+    height:20px;  
+}
+#element-selector-expand{
+    float:left;
+    background:white;
+    margin-left:20%;
+    margin-top:3%; 
+    width:15%;
+    height:15%;
+}
+#element-selector-contract{
+    float:right;
+    background:white;
+    margin-right: 20%;
+    margin-top:3%; 
+    width:15%;
+    height:15%;
+}
+.highlight{
+    background-color:#ffffcc;
+    border:2px solid #f30;
+} 

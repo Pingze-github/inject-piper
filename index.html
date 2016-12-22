@@ -1,41 +1,7 @@
 <html>
     <head>
         <title>Inject-piper</title>
-        <style>
-            #main{
-                margin-top:120px;
-                width:80%;
-                margin-left:10%;
-                margin-right:10%;
-                background-color:#ccffff;
-            }
-            #title{
-                margin-top:30px;
-                margin:auto;
-                font-size:50px;
-                text-align:center;
-            }
-            #href{
-                margin-top:30px;
-                margin-bottom:30px;
-                margin-left:10%;
-                margin-right:10%;
-                width:80%;
-                height:40px;
-                line-height:32px;
-                font-size:32px;
-            }
-            #submit{
-                display:block;
-                width:80px;
-                height:40px;
-                margin:0 auto;
-                text-align:center;
-            }
-            #top,#bottom{
-                height:30px;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href='/css/index.css' />
     </head>
     <body>
         <div id="main">
@@ -44,11 +10,11 @@
             <input type="text" id="href" />
             <input type="submit" id="submit" />
             <div id="bottom"></div>
-            <script type="text/javascript" src="jquery.min.js"></script>
         </div>
+        <script type="text/javascript" src="/js/jquery.min.js"></script>
         <script type="text/javascript">
             $('input#submit').click(function(){
-                var href = "/pipe?href="+$('input#href').val();
+                var href = "/piper?href="+$('input#href').val();
                 location.href = href;
             });
         </script>
