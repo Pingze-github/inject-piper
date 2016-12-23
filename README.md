@@ -10,6 +10,7 @@ A node.js server that can pipe web page to client, and inject code to the page a
 + 完善的网页编码自识别机制，避免乱码。
 + 合理的超时/重连机制，提高访问效率。
 + 主页（带网址输入框）。
++ 注入了用于快速选取元素的页内工具([Pingze-github/element-finder](https://github.com/Pingze-github/element-finder))。
 
 ### 待实现的功能
 + 反反盗链。
