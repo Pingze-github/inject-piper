@@ -1,0 +1,45 @@
+/*.+guaihaha.com.+*/
+#sliderleft
+,#sliderright
+,a[rel="external nofollow"]
+{
+    display: none;
+}
+@media screen and (max-width: 1000px) { 
+    #news_p2
+    ,#news_p2 + div
+    ,.th
+    ,.b1_top + div
+    ,#leftParent > div:not(#leftChild)
+    {
+        display: none;
+    }
+    #leftParent
+    ,#leftChild
+    ,.content
+    {
+        width:100%;
+    }
+    .b1_cont > a:first-child
+    {
+        display: block;
+    }
+    .b1_cont > a:first-child > h1
+    {
+        width:100%;
+    }
+    .listPic > a
+    {
+        width:100%;
+        height:auto;
+    }
+    .listPic img
+    {
+        width:100%;
+        height:auto;
+    }
+    .content img
+    {
+        display: none;
+    }
+}

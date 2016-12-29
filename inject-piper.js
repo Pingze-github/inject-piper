@@ -2,8 +2,8 @@
 
 var SA = require('superagent');
 var charset = require('superagent-charset');
-var inject_router = require('./inject-router.js')
 charset(SA);
+var inject_router = require('./inject-router.js')
 
 function getResponse(url,callback,retry_time=0){
     //get response
@@ -33,11 +33,34 @@ function information(html){
     return html
 }
 
+function unifyQuotation(html){
+    var hrefs_sin = html.match(/href='.*?'/gm);
+    for (var i in hrefs_sin){
+        var href_sin = hrefs_sin[i];
+        var href_dou = href_sin.substr();
+        href_dou = href_dou.replace(/"/g,'%%dou%%');
+        href_dou = href_dou.replace(/'/g,'"');
+        href_dou = href_dou.replace(/%%dou%%/g,"'");
+        html = html.replace(href_sin,href_dou);
+    }
+    var srcs_sin = html.match(/src='.*?'/gm);
+    for (var i in srcs_sin){
+        var src_sin = srcs_sin[i];
+        var src_dou = src_sin.substr();
+        src_dou = src_dou.replace(/"/g,'%%dou%%');
+        src_dou = src_dou.replace(/'/g,'"');
+        src_dou = src_dou.replace(/%%dou%%/g,"'");
+        html = html.replace(src_sin,src_dou);
+    }
+    return html;
+}
+
 function trans_src(html){
     //turn relative src into absolute
     var srcs = html.match(/src=".*?"/gm); 
-    for (i in srcs){
+    for (var i in srcs){
         var src = srcs[i];
+        //console.log(src);
         if(src.length>0){ //not null
             if(src.indexOf('http')<0){ //relative
                 if(src[5]=="/" && src[6]=="/"){ //miss http
@@ -57,7 +80,7 @@ function trans_src(html){
 function trans_href(html){
     //turn relative href into absolute
     var hrefs = html.match(/href=".*?"/gm);
-    for (i in hrefs){
+    for (var i in hrefs){
         var href = hrefs[i];
         //console.log(href);
         if(href.length>0){ //not null
@@ -103,10 +126,11 @@ exports.pipe = function(url,callback){
     getResponse(url,function(res){
         console.log('Got '+url);
         var html = res.text; //original html
-        html = information(html);
-        html = trans_src(html);
-        html = trans_href(html);
-        html = html.replace('</body>','<script type="text/javascript" src="/js/jquery.min.js"></script><script type="text/javascript" src="/js/element-finder.js"></script><script type="text/javascript" src="/js/element-selector.js"></script></body>') //inject element-finder
+        html = information(html); //add information
+        html = unifyQuotation(html); //turn '' to ""
+        html = trans_src(html); //transform src
+        html = trans_href(html); //transform href
+        //html = html.replace('</body>','<script type="text/javascript" src="/js/jquery.min.js"></script><script type="text/javascript" src="/js/element-finder.js"></script><script type="text/javascript" src="/js/element-selector.js"></script></body>') //inject element-finder
         inject_router.inject(url,html,function(html_injected){
             console.log('Piping '+url);
             callback(html_injected);
